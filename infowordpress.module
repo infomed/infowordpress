@@ -1,0 +1,964 @@
+<?php
+// $Id$
+/**
+ * @file
+ * Allows view posts and blogs from Wordpress Mu.
+ *
+ * Provides integration with wordpress's XMLRPC web services. Requieres infoxmlrpc plugin (http://wpmudev.org/project/infomed-xml-rpc-methods) for Wp Mu.
+ */
+
+include_once drupal_get_path('module', 'infowordpress') .'/infowordpress.common.inc';
+
+/**
+ * @name Drupal hooks 
+ * @{
+ * Implementation of Drupal hooks in module
+ *
+ */
+
+/**
+ * Implementation of hook_help().
+ *
+ * Display help and module information
+ *
+ * @param $path
+ *   which path of the site we're displaying help
+ * @param $arg
+ *   array that holds the current path as would be returned from arg() function
+ * @return
+ *    help text for the path
+ */
+function infowordpress_help($path, $arg) {
+  $output = '';
+  switch ($path) {
+    case "admin/help#infowordpress":
+	  $output = infowordpress_showhelp();
+      break;
+    case 'admin/modules#description':
+      $output = t("Allows view posts and blogs from Wordpress Mu. Provides integration with wordpress's XMLRPC web services. Requieres infoxmlrpc plugin (http://wpmudev.org/project/infomed-xml-rpc-methods) for Wp Mu.");
+      break;
+  }
+  return $output;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function infowordpress_theme() {
+  return array(
+    'infowordpress_post' => array(
+      'arguments' => array('infopost' => NULL, $iwpid => 0, 'display' => 1, 'display_others' => '0', $title => 0),
+    ),
+    'infowordpress_item_list' => array(
+      'arguments' => array('iwpid' => 0, 'result' => NULL, 'att' => 0) ,
+    ),
+    'infowordpress_blogs' => array(
+      'arguments' => array('blogs' => NULL, $display => 0, $display_postcount => 1),
+    ),
+    'infowordpress_categories' => array(
+      'arguments' => array('categories' => NULL, 'iwpid' => 0) ,
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_perm().
+ *
+ * Valid permissions for this module
+ *
+ * @return array
+ *   An array of valid permissions for the infowordpress module
+ */
+function infowordpress_perm() {
+  return array('view infowordpress posts', 'administer infowordpress', 'configure infowordpress', 'configure infowordpress encrypt', 'administer infowordpress blocks');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function infowordpress_menu() {
+  $items = array();
+
+  $items['admin/infowordpress'] = array(
+    'title' => 'Administer Infowordpress',
+    'page callback' => 'infowordpress',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress'),
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/permissions'] = array(
+    'title' => 'Permissions',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infoutilities_perm_form', 1),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer permissions'),
+    'weight' => -2,
+  );
+  $items['admin/infowordpress/block'] = array(
+    'title' => 'Blocks',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress blocks'),
+    'page callback' => 'infowordpress_admin',
+    'weight' => 0,
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/block/view'] = array(
+    'title' => 'list',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress blocks'),
+    'page callback' => 'infowordpress_admin',
+    'weight' => -1,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/block/add/1'] = array(
+    'title' => 'add infopost',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress blocks'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_block_form', 4),
+    'weight' => 0,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/block/edit/1'] = array(
+    'title' => 'edit infopost block',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress blocks'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_block_form', 4),
+    'type' => MENU_CALLBACK,
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/block/add/2'] = array(
+    'title' => 'add inforecents',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress blocks'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_block_form', 4),
+    'weight' => 1,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/block/edit/2'] = array(
+    'title' => 'edit inforecents block',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress blocks'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_block_form', 4),
+    'type' => MENU_CALLBACK,
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/block/add/3'] = array(
+    'title' => 'add infoblogs',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress blocks'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_block_form', 4),
+    'weight' => 1,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/block/edit/3'] = array(
+    'title' => 'edit infoblogs block',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress blocks'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_block_form', 4),
+    'type' => MENU_CALLBACK,
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/block/add/4'] = array(
+    'title' => 'add infocategories',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress blocks'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_block_form', 4),
+    'weight' => 1,
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/block/edit/4'] = array(
+    'title' => 'edit infocategories block',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress blocks'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_block_form', 4),
+    'type' => MENU_CALLBACK,
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/block/delete'] = array(
+    'title' => 'delete infowordpress block',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress blocks'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_confirm_delete_form', 4),
+    'type' => MENU_CALLBACK,
+    'file' => 'infowordpress.admin.inc',
+  );
+
+  $items['admin/infowordpress/settings'] = array(
+    'title' => 'Settings',
+    'access callback' => 'user_access',
+    'access arguments' => array('configure infowordpress'),
+    'page callback' => 'infowordpress_settings',
+    'weight' => -1,
+    'file' => 'infowordpress.admin.inc',
+  );
+  $items['admin/infowordpress/settings/view'] = array(
+    'title' => 'view infowordpress settings',
+    'access callback' => 'user_access',
+    'access arguments' => array('configure infowordpress'),
+    'page callback' => 'infowordpress_settings',
+    'weight' => -1,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'infowordpress.admin.inc',
+  );
+
+  $items['admin/infowordpress/settings/add'] = array(
+    'title' => 'add infowordpress setting',
+    'access callback' => 'user_access',
+    'access arguments' => array('configure infowordpress'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_settings_form'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'infowordpress.admin.inc',
+  );
+
+  $items['admin/infowordpress/settings/edit'] = array(
+    'title' => 'edit infowordpress setting',
+    'access callback' => 'user_access',
+    'access arguments' => array('configure infowordpress'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_settings_form'),
+    'type' => MENU_CALLBACK,
+    'file' => 'infowordpress.admin.inc',
+  );
+
+  $items['admin/infowordpress/settings/delete'] = array(
+    'title' => 'delete infowordpress setting',
+    'access callback' => 'user_access',
+    'access arguments' => array('configure infowordpress'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_setting_delete_form'),
+    'type' => MENU_CALLBACK,
+    'file' => 'infowordpress.admin.inc',
+  );
+
+  $items['admin/infowordpress/settings/encrypt'] = array(
+    'title' => 'edit encrypt setting',
+    'access callback' => 'user_access',
+    'access arguments' => array('configure infowordpress encrypt'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('infowordpress_settings_encrypt'),
+    'type' => MENU_CALLBACK,
+    'file' => 'infowordpress.admin.inc',
+  );
+
+  $items['admin/infowordpress/help'] = array(
+    'title' => 'Help',
+    'page callback' => 'infowordpress_showhelp',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer infowordpress'),
+    'weight' => 1,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_block().
+ *
+ * @param $op
+ *   which information retrieve (list, configure, save, view)
+ * @param $delta
+ *   which block to return
+ * @param $edit
+ *   if $op is save, the submitted form data from the configuration form
+ * @return if $op is 'list' An array of block descripton,
+ *         if $op is 'configure' return the configuration form  NO
+ *         if $op is 'save' return nothing     NO
+ *         if $op is 'view' return an array with subject and content of block indexed by $delta
+ */
+function infowordpress_block($op='list', $delta=0, $edit = array()) {
+  if (user_access('view infowordpress posts')) {
+    switch ($op) {
+      // listing of blocks, such as on the admin/block page
+      case 'list':
+        $result = db_query("SELECT iwpid, title FROM {infowordpress_block}");
+        $blocks = array();
+        while ($block = db_fetch_object($result)) {
+          $blocks["infowordpress-$block->iwpid"]['info'] = check_plain($block->title);
+        }
+        return $blocks;
+      case 'view':
+        list(, $id) = explode('-', $delta);
+        return infowordpress_block_render($id);
+    }
+  }
+}
+
+/**
+ * Implementation of hook_preprocess().
+ *
+ * Override 'content' variable into the page templates, to show full content of post or full block of recents.
+ *
+ * @param $vars
+ *   A sequential array of variables to pass to the theme template.
+ */
+function infowordpress_preprocess_page(&$vars) {
+  global $theme, $theme_key;
+
+  if( isset($_GET['iwp_ids']) && $_GET['iwp_ids']){
+    //show full_post
+    list($iwpid, $postid) = explode('_', $_GET['iwp_ids']);
+	$opt = 0;
+  }
+  elseif ( isset($_GET['iwp_id']) && $_GET['iwp_id']) {
+    //show more_recents
+    $iwpid = $_GET['iwp_id'];
+	$postid= 0;
+	$opt = 1;
+  }
+  elseif(isset($_GET['iwp_cids']) && $_GET['iwp_cids']){
+    //show posts with category
+    list($iwpid, $cat) = explode('_', $_GET['iwp_cids']);
+	$postid= 0;
+	$opt = 2;
+  }
+  else{
+    //another page
+  	return;
+  }
+  //get the block title and content 
+  $title_content = infowordpress_block_render($iwpid, $postid, $opt);
+
+  //add link to current page on breadcrumb
+  $breadcrumb = infoutilities_update_breadcrumb();
+
+  if (isset($_GET['from_more']) && $_GET['from_more']){
+	//title of block with more recents
+    $from_more = $_GET['from_more'];
+	$more_title = db_result(db_query("SELECT title FROM {infowordpress_block} WHERE iwpid=%d", $from_more));
+	$options['query'] = array( 'iwp_more' => $more_title .'/'. $from_more, 'iwp_id' => $from_more);
+    //agrega a los breadcrumbs link a more recents  
+	$breadcrumb[] = l($more_title, $_GET['q'], $options);
+  }
+  if (isset($_GET['from_cat']) && $_GET['from_cat']){
+	//title of block with posts for the category
+    $from_cat = $_GET['from_cat'];
+	list(, $cat) = explode('_', $from_cat);
+	$options['query'] = array( 'iwp_cat' => $cat .'/'. $iwpid, 'iwp_cids' => $from_cat);
+    //agrega a los breadcrumbs link a posts for the category 
+	$title_cat = t("Posts for the Category: ") . $cat;
+	$breadcrumb[] = l($title_cat, $_GET['q'], $options);
+  }
+
+  if (module_exists('menu_breadcrumb')) { 
+    if (variable_get('menu_breadcrumb_append_node_title', 0) == 1 ) {
+      //add current content (full post or more recents) to breadcrumbs
+	  $bc_title = infoutilities_breadcrumb_title($title_content['subject']);
+	  if (variable_get('menu_breadcrumb_append_node_url', 0) == 1) {
+        //add url
+		//$options = $item['localized_options'];
+		if ($postid){
+		  $options['query'] = array('iwp_post' => $_GET['iwp_post'], 'iwp_ids' => $_GET['iwp_ids']);
+          if (isset($from_more)){
+		    $options['query']['from_more'] = $from_more;
+		  }
+          if (isset($from_cat)){
+		    $options['query']['from_cat'] = $from_cat;
+		  }
+		}
+	    elseif ($opt == 1) {
+		  $options['query'] = array('iwp_more' => $_GET['iwp_more'], 'iwp_id' => $_GET['iwp_id']);
+        }
+	    elseif ($opt == 2) {
+		  $options['query'] = array('iwp_cat' => $_GET['iwp_cat'], 'iwp_cids' => $_GET['iwp_cids']);
+        }
+		$breadcrumb[] = l($bc_title, $_GET['q'], $options);
+	  }
+	  else {
+	    //add title
+        $breadcrumb[] = $bc_title;
+	  }
+	}
+  }  
+
+  //limpia las regiones setadas en infoutilities_clean_regions
+  $clean_regions = variable_get('infoutilities_clean_regions', array());
+  if ( $clean_regions ){
+    foreach ($clean_regions as $clean_region){
+      $vars[$clean_region] = '';
+	}
+  }
+
+  //assign breadcrumb  
+  $vars['breadcrumb'] = theme('breadcrumb', $breadcrumb);
+  //assign the block title to page title
+  $vars['title'] = $title_content['subject'];
+  //assign the block content (full post or more recents) to page 'content' region 
+  $vars['content'] = $title_content['content'];
+  
+  /*if($postid){
+    //si viene de un bloque para abrir un post, si su region es content o alguna de las que se limpio se agrega a esta region
+    $block_from = db_fetch_object(db_query("SELECT * FROM {blocks} WHERE theme = '%s' AND delta = '%s'", $theme_key, 'infowordpress-'. $iwpid));
+    if($block_from->region == 'content' OR ($clean_regions && in_array($block_from->region, $clean_regions))){
+      $block_from = infowordpress_block_complete(&$block_from);
+      $vars[$block_from->region] .= theme('block', $block_from);
+	}
+  }*/
+  
+}
+
+/**
+ * Complete the block information with data from his view hook 
+ *
+ * @param $block
+ *   A array of block data.
+ * 
+ * @return $block with data from view hook added
+ */
+function infowordpress_block_complete(&$block) {
+  $array = module_invoke($block->module, 'block', 'view', $block->delta);
+  if (isset($array) && is_array($array)) {
+    foreach ($array as $k => $v) {
+      $block->$k = $v;
+    }
+  }
+  return $block;
+}
+/**
+ * @} End of "Drupal hooks".
+ */
+
+/**
+ * @name Block Administration 
+ * @{
+ * view, add, edit, delete blocks
+ */
+
+
+/**
+ * @name Render results, integration with WS
+ * @{
+ * Render Blocks and pages with results,  integration with WS (xmlrpc).
+ */
+
+/**
+ * Render posts for _block() hook
+ *
+ * @param $iwpid
+ *   id of infowordpress block to render
+ * @param $postid
+ *   id of recent post to render
+ * @param $opt
+ *   1: if user press more... link in block of recents posts, 2: to get posts with a category, 0 otherwise  
+ * @return
+ *   associative array (subject and content) or FALSE if error
+ */
+function infowordpress_block_render($iwpid, $postid = 0, $opt = 0) {
+  // retrieve which infowordpress block to work with
+  $block = db_fetch_object(db_query("SELECT * FROM {infowordpress_block} WHERE iwpid=%d", $iwpid));
+
+  if (!$block) {
+    if (user_is_logged_in()) {//show error only logged in users
+      drupal_set_message(t("InfoWordpress block does not exist (iwpid:%iwpid)", array('%iwpid' => $iwpid)));
+    }
+    return FALSE;
+  }
+  $parameters['type'] = $postid ? 1 : $block->type; //if postid is a recent post is rendered as an infopost
+  if($parameters['type'] != 4 OR $opt==2){// type = 4 infocategories, data inside drupal, dont need ws  
+    $settings = variable_get('infowordpress_settings', NULL);
+    $ws_url = $settings[$block->setid][0] . (($block->blogname == '') ? 'xmlrpc.php' : $block->blogname .'/xmlrpc.php');
+    $ws_url = check_url($ws_url);
+
+
+    if($opt==2 && (isset($_GET['iwp_cids']) && $_GET['iwp_cids'])) {
+      list( , $parameters['category']) = explode('_', $_GET['iwp_cids']);
+	  $parameters['type'] = 2; //to get recents
+    }
+    else{
+      $parameters['category'] = $block->category;
+    }
+    $parameters['author'] = $block->author;
+    $parameters['date'] = $block->date;
+
+    if ( strchr( $block->display_others, '4') OR $block->item_link == 1) {
+      $parameters['attachments'] = 1;
+    }
+    $login = $settings[$block->setid][1];
+    $pass = $settings[$block->setid][2];
+    if ($pass != '' && variable_get('infowordpress_encrypt_pass', 0) == 1) {
+      $pass = infowordpress_decryptData($pass, variable_get('infowordpress_encrypt_key', 'wpmukey'));
+    }
+    $parameters['login'] = $login;
+    $parameters['pass'] = $pass;
+
+    //set numentry and display depending of $opt 
+    $parameters['display'] = $opt ? 0 : ($postid ? 1 : $block->display);
+    $numentry = $postid ? $postid : ($opt==1 ? 10 : $block->numentry); //if postid  numentry = postid 
+    $element = 'infowordpress-'. $iwpid;
+
+    $result = infowordpress_ws_result($ws_url, $numentry, $element, $parameters);
+  }
+  else{
+    $result = infowordpress_get_drupalselectcateg($iwpid);
+  }
+  if (!$result) {
+    return FALSE;
+  }
+  //render results
+  $output = '';
+  switch ($parameters['type']) {
+    case 1: //infopost or recent post
+      $title = $result['title'];
+	  
+      $output = theme('infowordpress_post', $result, $iwpid, $parameters['display'], $block->display_others);
+
+      unset($result);
+      break;
+
+    case 2: //inforecents
+      $title = $opt!=2 ? $block->title : t("Archive for the Category: ") . $parameters['category'];
+
+      switch ($parameters['display']) {
+        case 4: //list of content
+          foreach ($result['list'] as $unpost) {
+            $output .= theme('infowordpress_post', $unpost, $iwpid, $block->display, $block->display_others, 0);
+          }
+	  break;
+	
+	case 3: //list of titles
+	  $output = theme('infowordpress_item_list', $iwpid, $result, $parameters['attachments']);
+	  break;
+	
+	case 2: //list of titles with more...
+	  $output = theme('infowordpress_item_list', $iwpid, $result, $parameters['attachments']);
+
+	  if ($result['total'] > $numentry ) {
+            //add link more... to block, if results > numentry
+	    $options['query'] = array( 'iwp_more' => $title .'/'. $iwpid, 'iwp_id' => $iwpid);
+	    $more_link = l(t('more...'), $_GET['q'], $options );
+  	    $output .= '<div class="more-link">'. $more_link .'</div>';
+          }
+	  break;
+	    
+	case 1: //results page
+          foreach ($result['list'] as $unpost) {
+            $output .= theme('infowordpress_post', $unpost, $iwpid, $block->display, $block->display_others, 1);
+          }
+	  $output .= theme('infoutilities_pager', NULL, $block->numentry, $element, $query_params);
+	  break;
+
+        case 0: //Items List, with more... (after press more...)
+	  $output = theme('infowordpress_item_list', $iwpid, $result, $parameters['attachments']);
+	  //add iwp_id to pager elements 
+	  if(isset($_GET['iwp_id'])) {
+	    $query_params['iwp_id'] = $_GET['iwp_id'];
+	  }
+	  elseif(isset($_GET['iwp_cids'])) {
+	    $query_params['iwp_cids'] = $_GET['iwp_cids'];
+	  }	
+	  $output .= theme('infoutilities_pager', NULL, $numentry, $element, $query_params);
+          break;
+      }
+      unset($result);
+      break;
+
+    case 3: //infoblogs
+      $title = $block->title;
+      //show blogs and users 
+      $output = theme('infowordpress_blogs', $result['list'], $block->display, $block->display_others);
+      $output .= theme('infoutilities_pager', NULL, $block->numentry, $element, array());
+      unset($result);
+      break;
+    
+    case 4: //infocategories
+      $title = $block->title;
+      //show selected categories 
+      $output = theme('infowordpress_categories', $result, $iwpid);
+      unset($result);
+      break;
+  }
+
+  //ubicando descripcion del bloque si existe
+  if($opt!=2 && !isset($_GET['from_cat']) && 
+     (isset($block->descr) && isset($block->descr_place) && $block->descr && $block->descr_place)) {
+    if($block->descr_place == 1) {
+	  $output = filter_xss($block->descr, array('a', 'em', 'strong', 'ul', 'ol', 'li', 'dl', 'dt', 'dd', 'table', 'td', 'tr', 'th', 'p', 'br /', 'img')) . $output;
+    }
+	else {
+	  $output = $output . filter_xss($block->descr, array('a', 'em', 'strong', 'ul', 'ol', 'li', 'dl', 'dt', 'dd', 'table', 'td', 'tr', 'th', 'p', 'br /', 'img'));
+    }
+  }
+  
+  cache_clear_all();
+  return array("content" => $output, "subject" => check_plain($title));
+}
+
+
+function infowordpress_get_drupalselectcateg($iwpid) {
+  
+  $result = db_query("SELECT cat_ID, cat_name FROM {infowordpress_block_categ} WHERE iwpid=%d AND selected=1 ORDER BY cat_name", $iwpid);
+  $categories = array();
+  while ($cat = db_fetch_array($result)) {
+    $categories[] =  $cat;
+  }
+  return $categories;
+}
+/**
+ * @} End of "Render results, , integration with WS".
+ */
+
+/**
+ * @name Theme functions
+ * @{
+ * Themes for infowordpress contents.
+ */
+
+/**
+ * Return a themed infopost block content.
+ *
+ * @param $infopost
+ *   An associative array providing all relevant information for displaying an infopost content:
+ *   - $infopost['postid']: The ID of the infopost.
+ *   - $infopost['title']: The title of the infopost.
+ *   - $infopost['dateCreated']: The creation date, as an Object.
+ *   - $infopost['resume']: A resume of infopost (excerpt or text before more or '').
+ *   - $infopost['content']: The full infopost content.
+ *   - $infopost['categories']: The categories of the infopost.
+ *   - $infopost['wp_author_display_name']: The username of the author.
+ * @param $iwpid
+ *   Id of inforwordpress block. If display the teaser (2), we use it for read more...
+ * @param $display
+ *   If 1 display as a standalone page, as on the main page. If 2 display the teaser only. 
+ * @param $display_others
+ *   to display author, date or categories.
+ * @param $title
+ *   If 1 insert title inside block's content, if 0 no.
+ * @return
+ *   A string containing the infopost block content output.
+ */
+function theme_infowordpress_post($infopost, $iwpid, $display = 1, $display_others = '0', $title = 0) {
+  if ($title) { 
+    $output .= '<h2 class="title">'. check_plain($infopost['title']) .'</h2>';
+  }
+
+  $display_others = explode('_', $display_others);
+
+  //date and username
+  $date_user = '';
+  if ( in_array( 1, $display_others) ) { //1: show date
+    $created_date = $infopost['dateCreated'];
+    //as timestamp, si es 0 la fecha viene vacia
+    $created_date = mktime( $created_date->hour, $created_date->minute, $created_date->second, $created_date->month, $created_date->day, $created_date->year);
+    if ( $created_date) {
+      $date_user = format_date($created_date);
+	}
+  }
+  if ( in_array( 2, $display_others)) { //2: show author
+    if ( $date_user ) {
+	  $date_user .= '-';
+	}
+	$date_user .= $infopost['wp_author_display_name'];
+  }
+  if ( $date_user ) {
+	$output .= '<span class="submitted">'. $date_user .'</span>';
+  }
+
+  if ( $display == 2 ) {//show excerpt (only for infopost, inforecents have not excerpt option)
+    $read_more = 1;
+
+    //excerpt
+    if (strlen($infopost['resume'])) {
+      $excerpt = $infopost['resume']; 
+	}
+    else {
+      //no  <!--more(.*?)-->
+      $excerpt = $infopost['content'];
+      if (drupal_strlen($excerpt) <= 600) {
+        $read_more = 0; //the teaser is a full post
+      }
+    }
+
+    $ends = array();
+    if ($read_more) {
+	  $excerpt = infowordpress_teaser($excerpt, 600);
+      
+	  $created_date = $infopost['dateCreated'];
+      $date = '';
+	  if ( $created_date) {
+        $date = $created_date->year .'/'. $created_date->month .'/'. $created_date->day .'/';
+	  }
+      //link read more
+      $ends['read_more'] = array(
+        'title' => t('Read more'),
+        'href' => $_GET['q'],
+        'query' => array('iwp_post' => $date . $infopost['title'] .'/'. $iwpid . $infopost['postid'], 
+						 'iwp_ids' => $iwpid .'_'. $infopost['postid']),
+        'attributes' => array('title' => t('Read the rest of post'), 'class' => 'links')
+      );
+    }
+    $output .= filter_xss($excerpt);
+  }
+  else {
+    $content = html_entity_decode($infopost['content']);
+    $output .= filter_xss( $content, array('a', 'em', 'strong', 'ul', 'ol', 'li', 'dl', 'dt', 'dd', 'table', 'td', 'tr', 'th', 'p', 'br /', 'img'));
+    //$output .= $content;
+  }
+
+  if ( in_array( 4, $display_others) ) { //4: show attachments
+    if ($infopost['att_links']) {
+      foreach ($infopost['att_links']['list'] as $att) {
+        $rows[] = l($att['title'], $att['link']);
+      }
+      $ends['att_links'] = theme('item_list', $rows, t('Attachments'));
+	}
+    //$ends['att_links'] = 'adjuntos';
+  }
+
+  if ( in_array( 3, $display_others) ) { //3: show categories
+    if (count($infopost['categories'])) {
+          $ends['categories'] = array(
+          'title' => t('Categories: ') . check_plain(implode(', ', $infopost['categories'])),
+        );
+    }
+  }
+
+  if (!empty($ends)) {
+    $output .= '<table><tr>';
+    if (isset($ends['read_more'])) {
+      $output .= '<td>'. l($ends['read_more']['title'], $ends['read_more']['href'], array('query' => $ends['read_more']['query'], 'attributes' => $ends['read_more']['attributes']));
+    }
+    if (isset($ends['att_links'])) {
+      $output .= '<td>'. $ends['att_links'];
+    }
+    if (isset($ends['categories'])) {
+      $output .= '<td align="right">'. $ends['categories']['title'];
+    }
+    $output .= '</table>';
+  }
+
+  return $output;
+}
+/**
+ * Generate a teaser for a wp post.
+ *
+ * Generate the teaser automatically, trying to end it at a sensible
+ * place such as the end of a paragraph, a line break, or the end of a
+ * sentence (in that order of preference).
+ *
+ * @param $body
+ *   The content for which a teaser will be generated.
+ * @param $size
+ *   The desired character length of the teaser. If omitted, the default
+ *   value will be used.
+ * @return
+ *   The generated teaser.
+ */
+function infowordpress_teaser($body, $size) {
+
+  // try to split at paragraph or sentence boundaries.
+
+  // The teaser may not be longer than maximum length specified. Initial slice.
+  $teaser = truncate_utf8($body, $size);
+
+  // Store the actual length of the UTF8 string -- which might not be the same
+  // as $size.
+  $max_rpos = strlen($teaser);
+
+  // How much to cut off the end of the teaser so that it doesn't end in the
+  // middle of a paragraph, sentence, or word.
+  // Initialize it to maximum in order to find the minimum.
+  $min_rpos = $max_rpos;
+
+  // Store the reverse of the teaser.  We use strpos on the reversed needle and
+  // haystack for speed and convenience.
+  $reversed = strrev($teaser);
+
+  // Build an array of arrays of break points grouped by preference.
+  $break_points = array();
+
+  // A paragraph near the end of sliced teaser is most preferable.
+  $break_points[] = array('</p>' => 0);
+
+  // If no complete paragraph then treat line breaks as paragraphs.
+  $line_breaks = array('<br />' => 6, '<br>' => 4);
+  $break_points[] = $line_breaks;
+
+  // If the first paragraph is too long, split at the end of a sentence.
+  $break_points[] = array('. ' => 1, '! ' => 1, '? ' => 1, '。' => 0, '؟ ' => 1);
+
+  // Iterate over the groups of break points until a break point is found.
+  foreach ($break_points as $points) {
+    // Look for each break point, starting at the end of the teaser.
+    foreach ($points as $point => $offset) {
+      // The teaser is already reversed, but the break point isn't.
+      $rpos = strpos($reversed, strrev($point));
+      if ($rpos !== FALSE) {
+        $min_rpos = min($rpos + $offset, $min_rpos);
+      }
+    }
+
+    // If a break point was found in this group, slice and return the teaser.
+    if ($min_rpos !== $max_rpos) {
+      // Don't slice with length 0.  Length must be < 0 to slice from RHS.
+      return ($min_rpos === 0) ? $teaser : substr($teaser, 0, 0 - $min_rpos);
+    }
+  }
+
+  // If a break point was not found, still return a teaser.
+  return $teaser;
+}
+
+
+/**
+ * Return a themed infowordpress results as list of items.
+ *
+ * @param $iwpid
+ *   Id of inforwordpress block. 
+ * @param $result
+ *   An associative array of results:, each result is an associative array:
+ *   - $result['total']: Total of results.
+ *   - $result['list']: an associative array with tid, titulo and texto of each result.
+ *
+ */
+function theme_infowordpress_item_list($iwpid, $result, $att) {
+
+  foreach ($result['list'] as $unpost) {
+    $created_date = $unpost['dateCreated'];
+    $date = '';
+	if ( $created_date) {
+      $date = $created_date->year .'/'. $created_date->month .'/'. $created_date->day .'/';
+	}
+	$options['query'] = array('iwp_post' => $date . $unpost['title'] .'/'. $iwpid . $unpost['postid'], 
+							  'iwp_ids' => $iwpid .'_'. $unpost['postid']);
+	//si viene de una pag de more_recents, se agrega $iwp_id a query, para adicionar more_recents a los breadcrumbs
+	if(isset($_GET['iwp_id']) && $_GET['iwp_id'] == $iwpid){
+	  $options['query']['from_more'] = $_GET['iwp_id'];
+	}
+	//si viene de una pag de categoria
+	if(isset($_GET['iwp_cids']) ){
+	  list($iwp_id, ) = explode('_', $_GET['iwp_cids']);
+	  if($iwp_id == $iwpid){
+	    $options['query']['from_cat'] = $_GET['iwp_cids'];
+	  }
+	}
+	//link to show full post
+	$item_link = $_GET['q'];
+    if ( $att ) {
+	  //link to first post attachment
+	  if ($unpost['att_links']) {
+	    $item_link = $unpost['att_links']['list'][0]['link'];
+	  }
+	}
+    $rows[] = l($unpost['title'], $item_link, $options);
+  }
+  $output = theme('item_list', $rows);
+
+  return $output;
+}
+
+/**
+ * Return a themed infoblogs block content.
+ *
+ * @param $blogs
+ *   An array of associative arrays providing information for displaying blogs and its admins:
+ *   - $blogs[]['blog_id']: The ID of the blog.
+ *   - $blogs[]['domain']: The domain of the blog.
+ *   - $blogs[]['path']: The path of the blog.
+ *   - $blogs[]['name']: The name of the blog.
+ *   - $blogs[]['title']: The title of the blog.
+ *   - $blogs[]['postcount']: number of posts at blog.
+ *   - $blogs[]['users']: an associative array providing information of block's users (mail, login, firstname, secondname).
+ * @param $display
+ *   1: to display blog's administrators, 2: editors, 3: authors, 4: contributors, 5: subscribers, 0: don't display blog's users 
+ * @param $display_postcount
+ *   1: to display blog's postcount, 0: don't display postcount
+ * @return
+ *   A string containing the infoblogs block content output.
+ */
+function theme_infowordpress_blogs($blogs, $display, $display_postcount) {
+  
+  
+  $output .= '<ul>';
+  foreach ($blogs  as $blog) {
+    $postcount = ($display_postcount == 1) ? ' ('. $blog['postcount'] . t(' posts') .')' : '';
+    $output .= '<li>'. l($blog['title'] .$postcount, check_url('http://'. $blog['domain'] . $blog['path']));
+    if ($display && $blog['users']) {
+      switch ($display) {
+	    case 1:
+	      $output .= '<dt>-'. t('Administrators:') .'</dt>';
+		  break;
+	    case 2:
+	      $output .= '<dt>-'. t('Editors:') .'</dt>';
+		  break;
+	    case 3:
+	      $output .= '<dt>-'. t('Authors:') .'</dt>';
+		  break;
+	    case 4:
+	      $output .= '<dt>-'. t('Contributors:') .'</dt>';
+		  break;
+	    case 5:
+	      $output .= '<dt>-'. t('Subscribers:') .'</dt>';
+		  break;
+      }
+		  
+	  foreach ($blog['users'] as $user) {
+        $output .= '<dd>'. $user['login'] .' ('. $user['mail']  .')</dd>';
+      }
+    }
+	$output .= '</li>';
+  }
+  $output .= '</ul>';
+
+  return $output;
+}
+
+/**
+ * Return a themed infocategories block content.
+ *
+ * @param $categories
+ *   An array of associative arrays providing information for displaying categories:
+ *   - $categories[]['cat_ID']: The ID of the category.
+ *   - $categories[]['cat_name']: The name of the category.
+ * @param $iwpid
+ *   Id of inforwordpress categories block. 
+ * @return
+ *   A string containing the list of categories with link to show its posts.
+ */
+function theme_infowordpress_categories($categories, $iwpid) {
+  
+  foreach ($categories  as $category) {
+	$options['query'] = array('iwp_cat' => $category['cat_name'] .'/'. $iwpid, 
+							  'iwp_cids' => $iwpid .'_'. $category['cat_name']);
+    $rows[] = l($category['cat_name'], $_GET['q'], $options);
+  }
+  $output = theme('item_list', $rows);
+
+  return $output;
+}
+/**
+ * @} End of "Theme functions".
+ */
+
+/**
+ * Aux function to show Help of infowordpress
+ */
+function infowordpress_showhelp() {
+  if(!module_exists('advanced_help')){
+      $output .= '<p>'. t('<strong>Description:</strong> It allows to visualize inside Drupal posts and blogs of Wordpress Mu. For example: <a href="http://blogs.sld.cu/">Blogs Service of Infomed</a>. It integrates with the Web Service XMLRPC of Wordpress. Requieres <a href="http://wpmudev.org/project/infomed-xml-rpc-methods">infoxmlrpc</a> plugin for Wp Mu.') .'</p>';
+      $output .= '<p>'. t('<strong>Installation:</strong> Copy the module to the folder of modules of your installation of Drupal (..\sites\all\modules\). Enable it in administer->modules. When module is enabled, it creates administration menu and tables with prefix infowordpress_') .'</p>';
+      $output .= '<p>'. t("<strong>Administration Menu:</strong><ul><li>Administer Infowordpress (shows module help)<ul><li>Permissions<ul><li>View Infowordpress Posts: allows to see posts.</li><li>Administer Infowordpress: allows the access to the administration menu.</li><li>Administer Infowordpress Blocks: allows the access to the Blocks option.</li><li>Configure Infowordpress: allows the access to the Settings option.</li></ul></li><li>Settings<ul><li>Wordpress Url: Allows configuration of one or more instances of Wordpress, based on the URL, username and password for connecting to Web Service.</li><li>Encrypt Passwords: to configure if wordpress passwords will encrypted before save them in drupal table.</li></ul></li><li>Blocks<ul><li>InfoPost: to display a Wordpress post, based on the URL of Wordpress Mu, the name of Blog and the post.</li><li>InfoRecents: to display a list of the most recent entries on a Blog, based on Url of Wordpress Mu, the Blog name and the maximum number of posts to be displayed on the block.</li><li>InfoBlogs: to display a list of blogs and their administrators at a Wp Mu instance, based on Url of Wordpress Mu and the maximum number of blogs to be displayed on the block. It requires xmlrpc_info.php web service (created by Infomed), at Wp Mu instance!</li></ul></li></ul></li></ul>") .'</p>';
+      $output .= '<p>'. t('<strong>Tables:</strong> <ul><li>infowordpress_block: to save blocks of module</li></ul>') .'</p>';
+      $output .= '<p>'. t('<strong>Visualization:</strong> Like any other block of Drupal, an Infowordpress block should be placed in any region to display, this can be done in: administer->site building->blocks. <ul><li>InfoPost block: <ul><li>Its title</li></ul> <ul><li>The creation date</li></ul> <ul><li>The author</li></ul> <ul><li>The description (and link to see more) or the full text</li></ul> <ul><li>Categories</li></ul></li> <li>InfoRecents block: Displays a list of recents posts titles or a list of recents posts full text.</li></ul>') .'</p>';
+      $output .= '<p>'. t('If the Web Service gives error or not recover any data the block is not visualized.') .'</p>';
+      $output .= '<p>'. t('<strong>Disable:</strong> Disable in: administer->modules. After would stop to be shown: <ul><li>The Administer Infowordpress Menu</li></ul> <ul><li>The blocks that had been located in any region</li></ul> But still stay the tables created by the module with all its data.') .'</p>';
+      $output .= '<p>'. t('<strong>Uninstall:</strong> Uninstall in: administer->modules->uninstall. After would eliminate the tables created by the module and in the table blocks (Drupal) deletes records whose from is Infowordpress.') .'</p>';
+  }
+  else{
+    $output = advanced_help_index_page('infowordpress');
+  }
+  return $output;
+}

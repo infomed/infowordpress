@@ -1,0 +1,842 @@
+# $Id$
+#
+# Spanish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  infowordpress.module: n/a
+#  infowordpress.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Infowordpress\n"
+"POT-Creation-Date: 2009-05-08 10:52-0500\n"
+"PO-Revision-Date: 2009-07-24 11:01-0500\n"
+"Last-Translator: yazna <yazna@infomed.sld.cu>\n"
+"Language-Team: Infomed\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: infowordpress.admin.inc:27 infowordpress.common.inc:45
+msgid "Infopost"
+msgstr "Entrada"
+
+#: infowordpress.admin.inc:28 infowordpress.common.inc:75
+msgid "Inforecents"
+msgstr "Recientes"
+
+#: infowordpress.admin.inc:29 infowordpress.common.inc:82
+msgid "Infoblog"
+msgstr "Blogs"
+
+#: infowordpress.admin.inc:30 infowordpress.common.inc:88
+msgid "Infocategories"
+msgstr "Infocategorías"
+
+#: infowordpress.admin.inc:33;131
+msgid "Title"
+msgstr "Título"
+
+#: infowordpress.admin.inc:33
+msgid "Type"
+msgstr "Tipo"
+
+#: infowordpress.admin.inc:33;474
+msgid "Region"
+msgstr "Región"
+
+#: infowordpress.admin.inc:33;702
+msgid "Operations"
+msgstr "Operaciones"
+
+#: infowordpress.admin.inc:39;710;733
+msgid "edit"
+msgstr "editar"
+
+#: infowordpress.admin.inc:40;710
+msgid "delete"
+msgstr "eliminar"
+
+#: infowordpress.admin.inc:43
+msgid "configure"
+msgstr "configurar"
+
+#: infowordpress.admin.inc:53
+msgid "No infowordpress blocks exist."
+msgstr "No existen bloques de Blogs (wordpress)."
+
+#: infowordpress.admin.inc:134
+msgid "Enter the title of the block"
+msgstr "Introduzca el título del bloque"
+
+#: infowordpress.admin.inc:143
+msgid "Set Blog, Filter options and Refresh."
+msgstr "Asignar Blog, opciones de filtro y Refrescar."
+
+#: infowordpress.admin.inc:147;254;335;387
+msgid "Url of Wordpress Mu"
+msgstr "Url del Blog (Wordpress Mu)"
+
+#: infowordpress.admin.inc:150;257;338;390
+msgid "Select the Url of Wordpress Mu."
+msgstr "Seleccione la Url del Blog (Wordpress Mu)."
+
+#: infowordpress.admin.inc:155;262;395
+msgid "Blog Name"
+msgstr "Nombre del Blog"
+
+#: infowordpress.admin.inc:158;265;398
+msgid "The name of blog at Wordpress Mu. Leave blank if is the root blog."
+msgstr ""
+"Nombre del Blog (en Wordpress Mu). Déjelo en blanco para el blog "
+"raíz."
+
+#: infowordpress.admin.inc:158
+msgid " WARNING! If you change it, you have to Refresh Posts."
+msgstr " ATENCION! Si cambia el nombre del blog, tiene que Refrescar Entradas."
+
+#: infowordpress.admin.inc:163;275
+msgid "Category"
+msgstr "Categoría"
+
+#: infowordpress.admin.inc:166;278
+msgid "The name of category to filter posts."
+msgstr "Nombre de la Categoría por la que desea filtrar las entradas."
+
+#: infowordpress.admin.inc:171;233;283;365
+msgid "Author"
+msgstr "Autor"
+
+#: infowordpress.admin.inc:174;286
+msgid "The author of posts, to filter by him."
+msgstr "Autor por el que desea filtrar las entradas."
+
+#: infowordpress.admin.inc:179;233;291
+msgid "Date"
+msgstr "Fecha"
+
+#: infowordpress.admin.inc:181;293
+msgid "You can filter by year or month-year or day-month. Leave blank the part of the date for which doesn't want to filter"
+msgstr ""
+"Puede filtrar por año o mes-año o día-mes. Deje en blanco las "
+"partes de la fecha por las que no desea filtrar."
+
+#: infowordpress.admin.inc:187
+msgid "Refresh Posts"
+msgstr "Refrescar Entradas"
+
+#: infowordpress.admin.inc:206
+msgid "Select a Post"
+msgstr "Seleccione una Entrada"
+
+#: infowordpress.admin.inc:210
+msgid "Select the Title of Post that you want to show."
+msgstr "Seleccione el título de la Entrada que desea mostrar en el bloque."
+
+#: infowordpress.admin.inc:215
+msgid "Sorry, there are no Posts at this Blog name, with those filter options."
+msgstr "Disculpe, en el Blog no hay entradas con esas opciones de filtro."
+
+#: infowordpress.admin.inc:221;299;343
+msgid "View in block"
+msgstr "Ver resultados"
+
+#: infowordpress.admin.inc:225
+msgid "Display"
+msgstr "Mostrar"
+
+#: infowordpress.admin.inc:226
+msgid "Whole post"
+msgstr "Entrada completa"
+
+#: infowordpress.admin.inc:226
+msgid "Teaser"
+msgstr "Resumen"
+
+#: infowordpress.admin.inc:228
+msgid "What part of post you want to show in the block."
+msgstr "Qué parte de la Entrada desea mostrar en el bloque."
+
+#: infowordpress.admin.inc:232
+msgid "Display also"
+msgstr "Mostrar además"
+
+#: infowordpress.admin.inc:233
+msgid "Categories"
+msgstr "Categorías"
+
+#: infowordpress.admin.inc:233 infowordpress.module:713
+msgid "Attachments"
+msgstr "Adjuntos"
+
+#: infowordpress.admin.inc:241;374
+msgid "Description"
+msgstr "Descripción"
+
+#: infowordpress.admin.inc:243;376
+msgid "Enter the description of the block"
+msgstr "Introduzca la descripción del bloque"
+
+#: infowordpress.admin.inc:247;380
+msgid "Show Description"
+msgstr "Mostrar Descripción"
+
+#: infowordpress.admin.inc:249;382
+msgid "Up of the Items"
+msgstr "Arriba de la lista"
+
+#: infowordpress.admin.inc:249;382
+msgid "Below of the Items"
+msgstr "Debajo de la lista"
+
+#: infowordpress.admin.inc:250;383
+msgid "Select the place where you want to show Description."
+msgstr "Seleccione el lugar donde va a mostrar la Descripción."
+
+#: infowordpress.admin.inc:271
+msgid "Filter by:"
+msgstr "Filtrar por:"
+
+#: infowordpress.admin.inc:303;442
+msgid "Max Posts"
+msgstr "Cantidad de Entradas"
+
+#: infowordpress.admin.inc:307;351;446
+msgid "The maximum number of %content that will appear in the block."
+msgstr "La mayor cantidad de %content a mostrar en el bloque."
+
+#: infowordpress.admin.inc:307;446
+msgid "posts"
+msgstr "entradas"
+
+#: infowordpress.admin.inc:312
+msgid "Display Posts"
+msgstr "Mostrar Entradas"
+
+#: infowordpress.admin.inc:313
+msgid "Results Page"
+msgstr "Página de resultados"
+
+#: infowordpress.admin.inc:313
+msgid "Items List, with more... link"
+msgstr "Lista de items, con el enlace más..."
+
+#: infowordpress.admin.inc:313
+msgid "Items List"
+msgstr "Lista de Items"
+
+#: infowordpress.admin.inc:313
+msgid "Content List"
+msgstr "Lista de Contenido"
+
+#: infowordpress.admin.inc:315
+msgid "How to show posts in the block."
+msgstr "Cómo mostrar las Entradas en el bloque."
+
+#: infowordpress.admin.inc:319
+msgid "Items link"
+msgstr "Enlaces en los items"
+
+#: infowordpress.admin.inc:320;452
+msgid "To Post"
+msgstr "Al contenido de la Entrada"
+
+#: infowordpress.admin.inc:320;452
+msgid "To first Attachment"
+msgstr "Al primer Adjunto de la Entrada"
+
+#: infowordpress.admin.inc:322;454
+msgid "Select To Post if you want to get full post when you click an item. Select To first Attachment if you want to get the first post Attachment when you click an item."
+msgstr ""
+"Seleccione Al contenido de la Entrada si desea mostrar la entrada "
+"completa cuando se da click en el elemento de la list. Seleccione Al "
+"primer adjunto de la Entrada si desea obtener el adjunto."
+
+#: infowordpress.admin.inc:347
+msgid "Max Blogs"
+msgstr "Cantidad de Blogs"
+
+#: infowordpress.admin.inc:351
+msgid "blogs"
+msgstr "blogs"
+
+#: infowordpress.admin.inc:356
+msgid "Number of post for each blog"
+msgstr "Mostrar entradas de cada blog"
+
+#: infowordpress.admin.inc:357;725;730;879
+msgid "No"
+msgstr "No"
+
+#: infowordpress.admin.inc:357;730;879
+msgid "Yes"
+msgstr "Sí"
+
+#: infowordpress.admin.inc:359
+msgid "Select if you want to display the number of posts for each blog or not."
+msgstr "Seleccione si desea mostrar la cantidad de entradas de cada blog o no."
+
+#: infowordpress.admin.inc:364
+msgid "Users by Role"
+msgstr "Usuarios por Rol"
+
+#: infowordpress.admin.inc:365
+msgid "None of them"
+msgstr "Ninguno"
+
+#: infowordpress.admin.inc:365
+msgid "Administrator"
+msgstr "Administrador"
+
+#: infowordpress.admin.inc:365
+msgid "Editor"
+msgstr "Editor"
+
+#: infowordpress.admin.inc:365
+msgid "Contributor"
+msgstr "Contribuyente"
+
+#: infowordpress.admin.inc:365
+msgid "Subscriber"
+msgstr "Subscriptor"
+
+#: infowordpress.admin.inc:367
+msgid "Select if you want to display blog users or not."
+msgstr "Seleccione si desea mostrar los usuarios del blog o no."
+
+#: infowordpress.admin.inc:405
+msgid "Refresh Categories"
+msgstr "Refrescar Categorías"
+
+#: infowordpress.admin.inc:422
+msgid "Select Categories"
+msgstr "Seleccionar Categorías"
+
+#: infowordpress.admin.inc:426
+msgid "Select the Categories that you want to show in block."
+msgstr "Seleccione las Categorías que desea mostrar en el bloque."
+
+#: infowordpress.admin.inc:437
+msgid "List of Posts associated to the Category: "
+msgstr "Lista de Entradas asociadas a la Categoría: "
+
+#: infowordpress.admin.inc:451
+msgid "Each Post have link"
+msgstr "El vínculo en las entradas es"
+
+#: infowordpress.admin.inc:459
+msgid "Sorry, there are no Categories at this Blog name."
+msgstr "Disculpe, no existen Categorías en el blog seleccionado."
+
+#: infowordpress.admin.inc:470
+msgid "none"
+msgstr "ninguno"
+
+#: infowordpress.admin.inc:475
+msgid "Assign a block to a region."
+msgstr "Asigne el bloque a una región."
+
+#: infowordpress.admin.inc:483;513;783;895
+msgid "Submit"
+msgstr "Guardar"
+
+#: infowordpress.admin.inc:500
+msgid "Sorry, that is not a valid URL."
+msgstr "Disculpe, esta no es una URL válida."
+
+#: infowordpress.admin.inc:507
+msgid "Sorry, this block requieres login and password at settings."
+msgstr ""
+"Disculpe, para este bloque tiene que llenar usuario y contraseña en "
+"las opciones del módulo."
+
+#: infowordpress.admin.inc:514
+msgid "You have to select a post."
+msgstr "Debe seleccionar una entrada."
+
+#: infowordpress.admin.inc:519
+msgid "You must insert a number of Post Id."
+msgstr "Usted debe seleccionar una Entrada."
+
+#: infowordpress.admin.inc:519
+msgid "You must insert a number for the maximum number of posts."
+msgstr "Usted debe insertar una cantidad de Entradas."
+
+#: infowordpress.admin.inc:523
+msgid "Post Id must be positive."
+msgstr "El identificador de la Entrada debe ser positivo."
+
+#: infowordpress.admin.inc:523
+msgid "Maximum number of posts must be positive."
+msgstr "El Máximo número de Entradas debe ser positivo."
+
+#: infowordpress.admin.inc:639
+msgid "Are you sure you want to delete %title?"
+msgstr "¿Está seguro de que quiere eliminar %title?"
+
+#: infowordpress.admin.inc:641;1024
+msgid "This action cannot be undone."
+msgstr "Esta acción no se puede deshacer."
+
+#: infowordpress.admin.inc:642;1015;1025
+msgid "Delete"
+msgstr "Eliminar"
+
+#: infowordpress.admin.inc:643;1016;1026
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: infowordpress.admin.inc:669
+msgid "The block has been removed."
+msgstr "El bloque ha sido eliminado."
+
+#: infowordpress.admin.inc:704
+msgid "Wordpress Url"
+msgstr "Url del Blog (Wordpress)"
+
+#: infowordpress.admin.inc:715
+msgid "No Urls exist."
+msgstr "No existen Urls."
+
+#: infowordpress.admin.inc:720;878
+msgid "Encrypt Passwords"
+msgstr "Encriptar Contraseñas"
+
+#: infowordpress.admin.inc:726;906
+msgid "To encrypt passwords you have to enable extension:php_mcrypt.dll, at php.ini. Be sure that Php installation have libmcrypt.dll"
+msgstr ""
+"Para encriptar las contraseñas hay que habilitar la "
+"extensión:php_mcrypt.dll, en php.ini. La instalación de Php debe "
+"incluir libmcrypt.dll."
+
+#: infowordpress.admin.inc:756
+msgid "URL"
+msgstr "URL"
+
+#: infowordpress.admin.inc:759
+msgid "The fully-qualified URL of the Wordpress Mu server( Endpoint). Ej. http://blogs.sld.cu/"
+msgstr "Url válida de Blogs (Wordpress Mu). Ej. http://blogs.sld.cu/"
+
+#: infowordpress.admin.inc:763
+msgid "Username"
+msgstr "Nombre de usuario"
+
+#: infowordpress.admin.inc:767
+msgid "Enter the username at that Wordpress Mu, if you want the InfoBlogs block."
+msgstr ""
+"Introduzca el nombre de usuario si desea crear un bloque de Lista de "
+"Blogs."
+
+#: infowordpress.admin.inc:771
+msgid "Enter the password that accompanies your username in both fields."
+msgstr ""
+"Introduzca la contraseña que acompaña al nombre de usuario en los "
+"dos campos."
+
+#: infowordpress.admin.inc:811
+msgid "There was an error. Check the Url"
+msgstr "Hubo un error. Chequee la Url."
+
+#: infowordpress.admin.inc:819
+msgid "Sorry, that URL already exists at settings."
+msgstr "Disculpe, esta URL existe en las opciones."
+
+#: infowordpress.admin.inc:881
+msgid "Select if you want to encrypt or not, paswords that you enter to connect with Wordpress Web Service."
+msgstr ""
+"Seleccione si desea (o no) encriptar las contraseñas para conectarse "
+"al Blog (Wordpress Mu)."
+
+#: infowordpress.admin.inc:887
+msgid "Key"
+msgstr "Clave"
+
+#: infowordpress.admin.inc:890
+msgid "Enter the key to encrypt passwords."
+msgstr "Introduzca la clave para encriptar las contraseñas."
+
+#: infowordpress.admin.inc:909
+msgid "You have to enter a key."
+msgstr "La clave es obligatoria."
+
+#: infowordpress.admin.inc:1009
+msgid "The following blocks are using this setting. They will be deleted, and <em>all data from them will be lost</em>!"
+msgstr ""
+"Los bloques siguientes están usando esta opción. Ellos serán "
+"eliminados y sus datos se perderán."
+
+#: infowordpress.admin.inc:1012
+msgid "Confirm deletion"
+msgstr "Confirmar eliminación"
+
+#: infowordpress.admin.inc:1014
+msgid "Are you sure you want to delete %url and blocks above?. <p>This action cannot be undone.</p>"
+msgstr ""
+"¿Está seguro de que quiere eliminar %url y los bloques de arriba?. "
+"<p>Esta acción no puede revertirse.</p>"
+
+#: infowordpress.admin.inc:1022
+msgid "Are you sure you want to delete %url?"
+msgstr "¿Está seguro de que quiere eliminar %url?"
+
+#: infowordpress.admin.inc:1064
+msgid "<strong>Description:</strong> It allows to visualize inside Drupal posts and blogs of Wordpress Mu. For example: <a href=\"http://blogs.sld.cu/\">Blogs Service of Infomed</a>. It integrates with the Web Service XMLRPC of Wordpress. Requieres <a href=\"http://wpmudev.org/project/infomed-xml-rpc-methods\">infoxmlrpc</a> plugin for Wp Mu."
+msgstr ""
+"<strong>Descripción:</strong> Permite ver dentro de Drupal entradas "
+"de Wordpress Mu. Por ejemplo: <a "
+"href=\"http://blogs.sld.cu/\">Servicio de Blogs de Infomed</a>. Se "
+"integra con el Web Service XMLRPC del Wordpress. Requiere el plugin <a "
+"href=\"http://wpmudev.org/project/infomed-xml-rpc-methods\">infoxmlrpc</a> "
+"para WpMu."
+
+#: infowordpress.admin.inc:1065
+msgid "<strong>Installation:</strong> Copy the module to the folder of modules of your installation of Drupal (..\\sites\\all\\modules\\). Enable it in administer->modules. When module is enabled, it creates administration menu and tables with prefix infowordpress_"
+msgstr ""
+"<strong>Instalación:</strong> Copie el módulo a la carpeta de "
+"módulos de su instalación de Drupal (..\\sites\\all\\modules\\). "
+"Habilítelo en administrar->construcción del sitio->módulos. Al "
+"habilitar el módulo este crea el menú de administración y tablas "
+"con el prefijo wordpress_."
+
+#: infowordpress.admin.inc:1066
+msgid "<strong>Administration Menu:</strong><ul><li>Administer Infowordpress (shows module help)<ul><li>Permissions<ul><li>View Infowordpress Posts: allows to see posts.</li><li>Administer Infowordpress: allows the access to the administration menu.</li><li>Administer Infowordpress Blocks: allows the access to the Blocks option.</li><li>Configure Infowordpress: allows the access to the Settings option.</li></ul></li><li>Settings<ul><li>Wordpress Url: Allows configuration of one or more instances of Wordpress, based on the URL, username and password for connecting to Web Service.</li><li>Encrypt Passwords: to configure if wordpress passwords will encrypted before save them in drupal table.</li></ul></li><li>Blocks<ul><li>InfoPost: to display a Wordpress post, based on the URL of Wordpress Mu, the name of Blog and the post.</li><li>InfoRecents: to display a list of the most recent entries on a Blog, based on Url of Wordpress Mu, the Blog name and the maximum number of posts to be displayed on the block.</li><li>InfoBlogs: to display a list of blogs and their administrators at a Wp Mu instance, based on Url of Wordpress Mu and the maximum number of blogs to be displayed on the block. It requires xmlrpc_info.php web service (created by Infomed), at Wp Mu instance!</li></ul></li></ul></li></ul>"
+msgstr ""
+"<strong>Menú de Administración:</strong><ul><li>Administrar Blogs "
+"(muestra la ayuda)<ul><li>Permisos<ul><li>Ver entradas:  permite ver "
+"las entradas recuperadas con los bloques.</li><li>Administrar Blogs: "
+"permite el acceso al menú de administración.</li><li>Administrar "
+"Bloques de Blogs: permite el acceso a la opción "
+"Bloques.</li><li>Configurar Blogs: permite el acceso a la opción de "
+"Configuración.</li></ul></li><li>Opciones<ul><li>Blogs Url: para "
+"configurar una o más instancias de Blogs (Wordpress Mu), basado en la "
+"URL, nombre de usuario y contraseña para conectarse al Web "
+"Service.</li><li>Encriptar Passwords: para configurar si las "
+"contraseñas de blogs se encriptarán antes de guardarlas en "
+"drupal.</li></ul></li><li>Bloques<ul><li>Una Entrada: para mostrar una "
+"entrada de blogs, basado en la URL de Blogs (Wordpress Mu), el nombre "
+"del blog y la entrada.</li><li>Lista Recientes: para mostrar una lista "
+"de entradas más recientes de un Blog, basado en la URL de Blogs "
+"(Wordpress Mu), el nombre del blog y la mayor cantidad de entradas a "
+"mostrar en el bloque.</li><li>Lista Blogs: para mostrar la lista de "
+"blogs y sus usuarios, de una instancia de Wp Mu, basado en el Url de "
+"la instancia de Blogs (Wordpress Mu) y el máximo de blogs a mostrar "
+"en el bloque. Requiere del Web Service xmlrpc_info.php (creado por "
+"Infomed), en la instancia de Wp Mu!</ul></li></ul></li></ul>"
+
+#: infowordpress.admin.inc:1067
+msgid "<strong>Tables:</strong> <ul><li>infowordpress_block: to save blocks of module</li></ul>"
+msgstr ""
+"<strong>Tablas:</strong> <ul><li>wordpress_block: para guardar los "
+"bloques del módulo</li></ul>"
+
+#: infowordpress.admin.inc:1068
+msgid "<strong>Visualization:</strong> Like any other block of Drupal, an Infowordpress block should be placed in any region to display, this can be done in: administer->site building->blocks. <ul><li>InfoPost block: <ul><li>Its title</li></ul> <ul><li>The creation date</li></ul> <ul><li>The author</li></ul> <ul><li>The description (and link to see more) or the full text</li></ul> <ul><li>Categories</li></ul></li> <li>InfoRecents block: Displays a list of recents posts titles or a list of recents posts full text.</li></ul>"
+msgstr ""
+"<strong>Visualización:</strong> Como cualquier otro bloque de Drupal, "
+"un bloque de Blogs (Wordpress) debe ser ubicado en alguna región para "
+"mostrarse, esto se puede hacer en: administrar->construcción del "
+"sitio->bloques. <ul><li>Bloque Una Entrada: <ul><li>Título</li></ul> "
+"<ul><li>Fecha de creación</li></ul> <ul><li>Autor</li></ul> "
+"<ul><li>Descripción (enlace para ver más) o texto completo de la "
+"entrada</li></ul> <ul><li>Categorías</li></ul></li> <li>Bloque Lista "
+"Recientes: Muestra una lista de las entradas más recientes por sus "
+"títulos o las entradas completas según se haya "
+"configurado.</li></ul>"
+
+#: infowordpress.admin.inc:1069
+msgid "If the Web Service gives error or not recover any data the block is not visualized."
+msgstr ""
+"Si el Web Service da un error o no se recuperan datos el bloque no se "
+"muestra."
+
+#: infowordpress.admin.inc:1070
+msgid "<strong>Disable:</strong> Disable in: administer->modules. After would stop to be shown: <ul><li>The Administer Infowordpress Menu</li></ul> <ul><li>The blocks that had been located in any region</li></ul> But still stay the tables created by the module with all its data."
+msgstr ""
+"<strong>Deshabilitar:</strong> Deshabilitar en: administrar->módulos. "
+"Después de lo cual no se mostrarán: <ul><li>El Menú de "
+"Administración</li></ul> <ul><li>Los bloques que fueron ubicados en "
+"cualquier región</li></ul> Pero se mantienen las tablas creadas por "
+"el módulo y todos sus datos."
+
+#: infowordpress.admin.inc:1071
+msgid "<strong>Uninstall:</strong> Uninstall in: administer->modules->uninstall. After would eliminate the tables created by the module and in the table blocks (Drupal) deletes records whose from is Infowordpress."
+msgstr ""
+"<strong>Desinstalar:</strong> Desinstalar en: "
+"administrar->módulos>desinstalar. Después de lo cual se eliminan las "
+"tablas creadas por el módulo y los registros en la tabla bloques de "
+"Drupal cuyo módulo es Blogs."
+
+#: infowordpress.admin.inc:553;561;654
+msgid "block"
+msgstr "bloque"
+
+#: infowordpress.admin.inc:553
+msgid "Updated '%module' block: '%title'."
+msgstr "Actualizado '%module' bloque: '%title'."
+
+#: infowordpress.admin.inc:561
+msgid "Added '%module' block: '%title'."
+msgstr "Adicionado '%module' bloque: '%title'."
+
+#: infowordpress.admin.inc:654
+msgid "Deleted '%module' block: '%title'."
+msgstr "Eliminado '%module' block: '%title'."
+
+#: infowordpress.common.inc:29
+msgid "Sorry, this wordpress service is not available now. Try later. Url:"
+msgstr ""
+"Disculpe, este servicio de blogs no está disponible ahora. Trate "
+"luego. Url:"
+
+#: infowordpress.common.inc:94
+msgid "Edit block"
+msgstr "Editar bloque"
+
+#: infowordpress.common.inc:95
+msgid "Infowordpress Error"
+msgstr "Error del Blog"
+
+#: infowordpress.common.inc:95
+msgid "on block "
+msgstr "en el bloque "
+
+#: infowordpress.module:38 infowordpress.info:0
+msgid "Allows view posts and blogs from Wordpress Mu. Provides integration with wordpress's XMLRPC web services. Requieres infoxmlrpc plugin (http://wpmudev.org/project/infomed-xml-rpc-methods) for Wp Mu."
+msgstr ""
+"Permite ver Entradas de Wordpress Mu. Proporciona la integración con "
+"el web service XMLRPC del Wordpress. Requiere el plugin Infoxmlrpc "
+"(http://wpmudev.org/project/infomed-xml-rpc-methods) para WpMu"
+
+#: infowordpress.module:355
+msgid "Posts for the Category: "
+msgstr "Entradas de la Categoría: "
+
+#: infowordpress.module:468
+msgid "InfoWordpress block does not exist (iwpid:%iwpid)"
+msgstr "El bloque del Blog no existe (iwpid:%iwpid)"
+
+#: infowordpress.module:525
+msgid "Archive for the Category: "
+msgstr "Entradas de la Categoría: "
+
+#: infowordpress.module:538
+msgid "more..."
+msgstr "más..."
+
+#: infowordpress.module:693
+msgid "Read more"
+msgstr "Leer más"
+
+#: infowordpress.module:697
+msgid "Read the rest of post"
+msgstr "Leer el resto de la Entrada"
+
+#: infowordpress.module:721
+msgid "Categories: "
+msgstr "Categorías: "
+
+#: infowordpress.module:884
+msgid " posts"
+msgstr " entradas"
+
+#: infowordpress.module:889
+msgid "Administrators:"
+msgstr "Administradores:"
+
+#: infowordpress.module:892
+msgid "Editors:"
+msgstr "Editores:"
+
+#: infowordpress.module:895
+msgid "Authors:"
+msgstr "Autores:"
+
+#: infowordpress.module:898
+msgid "Contributors:"
+msgstr "Contribuyentes:"
+
+#: infowordpress.module:901
+msgid "Subscribers:"
+msgstr "Subscriptores:"
+
+#: infowordpress.install:27;60
+msgid "Identifier for infowordpress block."
+msgstr "Indentificador de un bloque de infowordpress"
+
+#: infowordpress.install:29
+msgid "Block title."
+msgstr "Titulo del bloque"
+
+#: infowordpress.install:31
+msgid "Block description."
+msgstr "Descripción del bloque."
+
+#: infowordpress.install:33
+msgid "Defines the place to show description: 1: Up of the Items, 2: Below of the Items."
+msgstr ""
+"Define el lugar donde mostrar la descripción, 1: Ariba de la lista, "
+"2: Debajo de la lista."
+
+#: infowordpress.install:35
+msgid "Identifier of wordpress MU instance."
+msgstr "Identificador de la instancia de Wordpress MU"
+
+#: infowordpress.install:37
+msgid "Name of Blog."
+msgstr "Nombre del blog."
+
+#: infowordpress.install:39
+msgid "To filter posts by category."
+msgstr "Para filtrar las entradas por categoria."
+
+#: infowordpress.install:41
+msgid "To filter posts by author."
+msgstr "Para filtrar las entradas por autor."
+
+#: infowordpress.install:43
+msgid "To filter posts by date."
+msgstr "Para filtrar las entradas por fecha."
+
+#: infowordpress.install:45
+msgid "Defines if item link is to post content (0) or to post attachment (1)."
+msgstr ""
+"Define si el vinculo es al contenido de la entrada(0) o a su primer "
+"adjunto(1)."
+
+#: infowordpress.install:47
+msgid "Block type: 1 a post, 2 list of recents posts, 3 list of blogs, 4 categories."
+msgstr ""
+"Tipo del bloque: 1 entrada, 2 lista de recientes, 3 lista de blogs, 4 "
+"categorias de un blog."
+
+#: infowordpress.install:49
+msgid "Identifier of post to show or maximun number of items in list."
+msgstr ""
+"Identificador de una entrada o la mayor cantidad de elementos en el "
+"bloque."
+
+#: infowordpress.install:51
+msgid "How to show results in blocks."
+msgstr "Como mostrar los resultados en el bloque."
+
+#: infowordpress.install:53
+msgid "To show other information like: post's autor, category, date."
+msgstr "Mostrar el autor, las categorias o la fecha de la entrada."
+
+#: infowordpress.install:62
+msgid "Category identifier."
+msgstr "Identificador de la categoria."
+
+#: infowordpress.install:64
+msgid "Category name."
+msgstr "Nombre de la categoria."
+
+#: infowordpress.install:66
+msgid "If category was selected to show in block or not: 1: Show, 0: Dont show."
+msgstr "Identifica si la categoría se muestra(1) o no(0) en el bloque."
+
+#: infowordpress.info:0
+msgid "Infowordpress"
+msgstr "Blogs"
+
+#: infowordpress.info:0
+msgid "Infomed"
+msgstr "Infomed"
+
+#: infowordpress.module:80
+msgid "view infowordpress posts"
+msgstr "ver entradas de blogs"
+
+#: infowordpress.module:80
+msgid "administer infowordpress"
+msgstr "administrar blogs"
+
+#: infowordpress.module:80
+msgid "administer infowordpress blocks"
+msgstr "administrar bloques de blogs"
+
+#: infowordpress.module:80
+msgid "configure infowordpress encrypt"
+msgstr "configurar encriptación"
+
+#: infowordpress.module:80
+msgid "configure infowordpress"
+msgstr "configurar blogs"
+
+#: infowordpress.module:90
+msgid "Administer Infowordpress"
+msgstr "Administrar Blogs"
+
+#: infowordpress.module:96
+msgid "Permissions"
+msgstr "Permisos"
+
+#: infowordpress.module:106
+msgid "Blocks"
+msgstr "Bloques/Cajas"
+
+#: infowordpress.module:112
+msgid "list"
+msgstr "listado"
+
+#: infowordpress.module:120
+msgid "add infopost"
+msgstr "agregar entrada"
+
+#: infowordpress.module:129
+msgid "edit infopost block"
+msgstr "editar bloque entrada"
+
+#: infowordpress.module:137
+msgid "add inforecents"
+msgstr "agregar recientes"
+
+#: infowordpress.module:146
+msgid "edit inforecents block"
+msgstr "editar bloque recientes"
+
+#: infowordpress.module:154
+msgid "add infoblogs"
+msgstr "agregar blogs"
+
+#: infowordpress.module:163
+msgid "edit infoblogs block"
+msgstr "editar bloque blogs"
+
+#: infowordpress.module:154
+msgid "add infocategories"
+msgstr "agregar categorías"
+
+#: infowordpress.module:163
+msgid "edit infocategories block"
+msgstr "editar bloque categorías"
+
+#: infowordpress.module:176
+msgid "delete infowordpress block"
+msgstr "eliminar bloque blogs"
+
+#: infowordpress.module:184
+msgid "Settings"
+msgstr "Configuración"
+
+#: infowordpress.module:191
+msgid "view infowordpress settings"
+msgstr "ver opción de blogs"
+
+#: infowordpress.module:200
+msgid "add infowordpress setting"
+msgstr "agregar opción de blogs"
+
+#: infowordpress.module:209
+msgid "edit infowordpress setting"
+msgstr "editar opción de blogs"
+
+#: infowordpress.module:218
+msgid "edit encrypt setting"
+msgstr "editar opción encriptar"
+
+#: infowordpress.module:227
+msgid "delete infowordpress setting"
+msgstr "eliminar opción de blogs"

@@ -1,0 +1,167 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Implements hooks install, uninstall, schema, update.
+ *
+ */
+/**
+ * Implementation of hook_install().
+ */
+function infowordpress_install() {
+  // Create tables.
+  drupal_install_schema('infowordpress');  
+
+  variable_set('infowordpress_encrypt_pass', 0);
+  variable_set('infowordpress_encrypt_key', 'wpmukey');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function infowordpress_schema() {
+  $schema['infowordpress_block'] = array(
+    'fields' => array(
+      'iwpid'          => array('type' => 'serial', 'length' => 10, 'unsigned' => TRUE, 'not null' => TRUE, 
+	                            'description' => t('Identifier for infowordpress block.'),),
+      'title'          => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 
+	                            'description' => t('Block title.'),),
+      'descr'          => array('type' => 'text', 
+	                            'description' => t('Block description.'),),
+      'descr_place'    => array('type' => 'int', 'size' => 'small', 'length' => 1, 'default' => 0, 
+	                            'description' => t('Defines the place to show description: 1: Up of the Items, 2: Below of the Items.'),),
+      'setid'          => array('type' => 'int', 'length' => 10, 'unsigned' => TRUE, 'not null' => TRUE, 
+	                            'description' => t('Identifier of wordpress MU instance.'),),
+      'blogname'       => array('type' => 'varchar', 'length' => 60, 'not null' => TRUE, 
+	                            'description' => t('Name of Blog.'),),
+      'category'       => array('type' => 'varchar', 'length' => 60, 
+	                            'description' => t('To filter posts by category.'),),
+	  'author'         => array('type' => 'varchar', 'length' => 60, 
+	                            'description' => t('To filter posts by author.'),),
+      'date'           => array('type' => 'varchar', 'length' => 100, 
+	                            'description' => t('To filter posts by date.'),),
+	  'item_link'      => array('type' => 'int', 'size' => 'small', 'length' => 1, 'not null' => TRUE, 'default' => 0, 
+	                            'description' => t('Defines if item link is to post content (0) or to post attachment (1).'),),
+      'type'           => array('type' => 'int', 'size' => 'small', 'length' => 1, 'not null' => TRUE, 'default' => 2, 
+	                            'description' => t('Block type: 1 a post, 2 list of recents posts, 3 list of blogs, 4 categories.'),),
+      'numentry'       => array('type' => 'int', 'size' => 'big', 'length' => 20, 'not null' => TRUE, 'default' => 10, 
+	                            'description' => t('Identifier of post to show or maximun number of items in list.'),),
+      'display'        => array('type' => 'int', 'size' => 'small', 'length' => 1, 'default' => 1, 
+	                            'description' => t('How to show results in blocks.'),),
+      'display_others' => array('type' => 'varchar', 'length' => 10, 'default' => '0', 
+	                            'description' => t("To show other information like: post's autor, category, date."),)
+    ),
+    'primary key' => array('iwpid'),
+  );
+  $schema['infowordpress_block_categ'] = array(
+    'fields' => array(
+      'iwpid'          => array('type' => 'int', 'length' => 10, 'unsigned' => TRUE, 'not null' => TRUE, 
+	                            'description' => t('Identifier for infowordpress block.'),),
+      'cat_ID'          => array('type' => 'int', 'size' => 'big', 'length' => 20, 'unsigned' => TRUE, 'not null' => TRUE, 
+	                            'description' => t('Category identifier.'),),
+      'cat_name'          => array('type' => 'varchar', 'length' => 55, 'not null' => TRUE,
+	                            'description' => t('Category name.'),),
+      'selected'    => array('type' => 'int', 'size' => 'small', 'length' => 1, 'default' => 0, 
+	                            'description' => t('If category was selected to show in block or not: 1: Show, 0: Dont show.'),),
+    ),
+    'primary key' => array('iwpid', 'cat_ID'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function infowordpress_uninstall() {
+  //Delete infowordpress module's blocks
+  db_query("DELETE FROM {blocks} WHERE module = 'infowordpress'");
+  db_query("DELETE FROM {blocks_roles} WHERE module = 'infowordpress'");
+
+  //Delete infowordpress permissions
+  infoutilities_perm_delete('infowordpress');
+
+  // Remove tables.
+  drupal_uninstall_schema('infowordpress');
+  variable_del('infowordpress_encrypt_pass');
+  variable_del('infowordpress_encrypt_key');
+  variable_del('infowordpress_settings');
+}
+
+/**
+ * Implementation of hook_update().
+ * settings of the module are saved using variable_set()
+ */
+function infowordpress_update_6006() {
+  $ret = array();
+  
+  $result = db_query("SELECT * FROM {infowordpress_settings} ");
+  while ($s = db_fetch_object($result)) {
+    $settings[$s->setid] = array($s->url, $s->login, $s->pass);
+  }  
+  variable_set('infowordpress_settings', $settings);
+
+  $ret[] = update_sql("DROP TABLE {infowordpress_settings}");
+
+  return $ret;
+}
+
+/**
+ * Implementation of hook_update().
+ * options to filter posts (category, author, date)
+ */
+function infowordpress_update_6007() {
+  $ret = array();
+  
+  $ret[] = update_sql("ALTER TABLE {infowordpress_block} ADD category varchar(60)");
+  $ret[] = update_sql("ALTER TABLE {infowordpress_block} ADD link varchar(60)");
+  $ret[] = update_sql("ALTER TABLE {infowordpress_block} ADD date varchar(100)");
+
+  return $ret;
+}
+/**
+ * Implementation of hook_update().
+ * item_link: 0 the link of the item is to the post url, 
+ *            1 the link of the item is to the first post attachment url,
+ */
+function infowordpress_update_6008() {
+  $ret = array();
+  
+  $ret[] = update_sql("ALTER TABLE {infowordpress_block} ADD item_link smallint NOT NULL default 0");
+
+  return $ret;
+}
+/**
+ * Implementation of hook_update().
+ *
+ * Add fields descr, and descr_place to infowordpress_block
+ */
+function infowordpress_update_6009() {
+  $ret = array();
+  
+  $ret[] = update_sql("ALTER TABLE {infowordpress_block} ADD descr text");
+  $ret[] = update_sql("ALTER TABLE {infowordpress_block} ADD descr_place smallint default 0");
+
+  return $ret;
+}
+
+/**
+ * Implementation of hook_update().
+ *
+ * Add infowordpress_block_categ table to save categories of blocks with type = 4 (infocategories)
+ */
+function infowordpress_update_6010() {
+  $ret = array();
+  
+  //create infowordpress_block_categ table
+  $ret[] = update_sql("CREATE TABLE {infowordpress_block_categ} (
+    iwpid int(10) unsigned NOT NULL,
+    cat_ID bigint(20) unsigned NOT NULL,
+    cat_name varchar(55) NOT NULL,
+    selected smallint(1) NOT NULL default '1',
+    PRIMARY KEY (iwpid,cat_ID) );"
+  );
+
+  return $ret;
+}

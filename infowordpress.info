@@ -1,0 +1,7 @@
+; $Id$
+name = Infowordpress
+package = "Infomed"
+description = Allows view posts and blogs from Wordpress Mu. Provides integration with wordpress's XMLRPC web services. Requieres infoxmlrpc plugin (http://wpmudev.org/project/infomed-xml-rpc-methods) for Wp Mu.
+core = 6.x
+version = "6.x-1.1"
+dependencies[] = infoutilities
